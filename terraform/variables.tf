@@ -6,7 +6,7 @@ variable "gcp_project_id" {
 variable "gcp_region" {
   description = "Google Cloud region for deployment."
   type        = string
-  default     = "us-west2"
+  default     = "us-east4"
 }
 
 variable "use_custom_image" {

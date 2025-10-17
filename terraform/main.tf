@@ -104,7 +104,11 @@ resource "google_secret_manager_secret" "db_password_secret" {
   secret_id = "${var.cloud_run_service_name}-db-password"
   project   = var.gcp_project_id
   replication {
-    auto {}
+    user_managed {
+      replicas {
+        location = "us-east4"
+      }
+    }
   }
   depends_on = [google_project_service.secretmanager]
 }
@@ -123,7 +127,11 @@ resource "google_secret_manager_secret" "encryption_key_secret" {
   secret_id = "${var.cloud_run_service_name}-encryption-key"
   project   = var.gcp_project_id
   replication {
-    auto {}
+    user_managed {
+      replicas {
+        location = "us-east4"
+      }
+    }
   }
   depends_on = [google_project_service.secretmanager]
 }
@@ -332,10 +340,10 @@ resource "google_cloud_run_v2_service" "n8n" {
   ]
 }
 
-resource "google_cloud_run_v2_service_iam_member" "n8n_public_invoker" {
-  project  = google_cloud_run_v2_service.n8n.project
-  location = google_cloud_run_v2_service.n8n.location
-  name     = google_cloud_run_v2_service.n8n.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
-}
+# resource "google_cloud_run_v2_service_iam_member" "n8n_public_invoker" {
+#   project  = google_cloud_run_v2_service.n8n.project
+#   location = google_cloud_run_v2_service.n8n.location
+#   name     = google_cloud_run_v2_service.n8n.name
+#   role     = "roles/run.invoker"
+#   member   = "allUsers"
+# }
